@@ -1,0 +1,113 @@
+-- check the data
+SELECT *
+from original_data
+
+-- compare male vs female who invest the most
+select count(GENDER) as gendercount,GENDER
+from original_data
+GROUP BY GENDER
+
+
+-- male vs female invest avenues compare
+SELECT count(GENDER) as gendercount, GENDER, investment_avenues ,count(investment_avenues) as investcheck
+from original_data
+GROUP BY gender,investment_avenues
+
+
+SELECT age,GENDER
+from original_data
+WHERE 
+
+
+
+
+-- average prefernece of each investment
+SELECT
+	AVG( mutual_fund_preference ) as avgFund,
+	AVG( `Equity Market_preference`) as avgEquity,
+	AVG( Debentures_preference ) as avgDebentures,
+	AVG( GovernmentBonds_preference ) as avgGovernBond,
+	AVG( Fixed_Deposits_preference ) as avgFixedDepo,
+	AVG( Public_Provident_Fund_preference ) as AvgPPF,
+	AVG( Gold_preference ) as AVGgold
+from original_data
+
+SELECT
+	sum( mutual_fund_preference ) as avgFund,
+	sum( `Equity Market_preference`) as avgEquity,
+	sum( Debentures_preference ) as avgDebentures,
+	sum( GovernmentBonds_preference ) as avgGovernBond,
+	sum( Fixed_Deposits_preference ) as avgFixedDepo,
+	sum( Public_Provident_Fund_preference ) as AvgPPF,
+	sum( Gold_preference ) as AVGgold
+from original_data
+
+-- yes and no invest stock check
+SELECT
+	COUNT( invest_stock ),invest_stock ,GENDER
+	FROM original_data
+GROUP BY invest_stock ,GENDER 
+
+-- what factor consider when they invest
+SELECT COUNT(factor),factor##,gender
+from original_data
+GROUP BY factor ##,gender
+
+-- check the invest object 
+SELECT COUNT(invest_object),invest_object
+from original_data
+GROUP BY invest_object
+
+SELECT COUNT(invest_purpose),invest_purpose
+from original_data
+GROUP BY invest_purpose
+
+SELECT COUNT(invest_duration),invest_duration
+from original_data
+GROUP BY invest_duration
+
+
+SELECT COUNT(invest_check),invest_check
+from original_data
+GROUP BY invest_check
+
+
+SELECT COUNT(return_expect),return_expect
+from original_data
+GROUP BY return_expect
+
+
+SELECT COUNT(mostly_invest),mostly_invest
+from original_data
+GROUP BY mostly_invest
+
+
+
+
+SELECT COUNT(saving_object),saving_object
+from original_data
+GROUP BY saving_object
+
+
+--
+SELECT COUNT(reason_mutual),reason_mutual
+from original_data
+GROUP BY reason_mutual
+
+SELECT COUNT(reason_governBond),reason_governBond
+from original_data
+GROUP BY reason_governBond
+
+SELECT COUNT(reasons_fixedDepo),reasons_fixedDepo
+from original_data
+GROUP BY reasons_fixedDepo
+
+SELECT COUNT(reasons_fixedDepo),reasons_fixedDepo
+from original_data
+GROUP BY reasons_fixedDepo
+
+
+--
+SELECT count(information),information
+from original_data
+GROUP BY information
