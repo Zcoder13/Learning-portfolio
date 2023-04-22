@@ -1,0 +1,190 @@
+## informatio of dataset
+ 
+#borough: digit code of property located Manhattan (1), Bronx (2), Brooklyn (3), queen (4) , staten islan (5)
+#block lot :The combination of borough, block, and lot forms a unique key for property in New York City.Commonly called a BBL
+##BUILDING CLASS AT PRESENT and BUILDING CLASS AT TIME OF SALE: The type of building at various points in time. See the glossary linked to below.
+
+
+
+
+## cleaning data, rename data
+ALTER TABLE nyc_rolling_sales
+RENAME COLUMN `BUILDING CLASS AT PRESENT` to building_class_at_present 
+
+
+ALTER TABLE nyc_rolling_sales
+RENAME COLUMN `EASE-MENT` to ease_ment
+
+
+ALTER TABLE nyc_rolling_sales
+RENAME COLUMN `BUILDING CLASS CATEGORY` to building_class_categort
+
+ALTER TABLE nyc_rolling_sales
+RENAME COLUMN `TAX CLASS AT PRESENT` to tax_class_at_present
+
+ALTER TABLE nyc_rolling_sales
+RENAME COLUMN `APARTMENT NUMBER` to apartment_number
+
+
+ALTER TABLE nyc_rolling_sales
+RENAME COLUMN `ZIP CODE` to zip
+
+ALTER TABLE nyc_rolling_sales
+RENAME COLUMN `RESIDENTIAL UNITS` to rensidential_unit
+
+ALTER TABLE nyc_rolling_sales
+RENAME COLUMN `COMMERCIAL UNITS` to commercial_units
+
+ALTER TABLE nyc_rolling_sales
+RENAME COLUMN `TOTAL UNITS` to total_units
+
+
+ALTER TABLE nyc_rolling_sales
+RENAME COLUMN `LAND SQUARE FEET` to Land_square_feet
+
+ALTER TABLE nyc_rolling_sales
+RENAME COLUMN `GROSS SQUARE FEET` to Gross_square_feet
+
+ALTER TABLE nyc_rolling_sales
+RENAME COLUMN `YEAR BUILT` to year_built
+
+ALTER TABLE nyc_rolling_sales
+RENAME COLUMN `TAX CLASS AT TIME OF SALE` to tax_class_at_time_of_sale
+
+ALTER TABLE nyc_rolling_sales
+RENAME COLUMN `BUILDING CLASS AT TIME OF SALE` to building_class_at_time_of_sale
+
+ALTER TABLE nyc_rolling_sales
+RENAME COLUMN `SALE PRICE` to price
+
+ALTER TABLE nyc_rolling_sales
+RENAME COLUMN `SALE DATE` to sale_date
+
+
+##DELETE null COLUMN
+ALTER TABLE nyc_rolling_sales
+DROP COLUMN ease_ment
+
+ALTER TABLE nyc_rolling_sales
+DROP COLUMN f1
+
+## DELETE DUPLICATE data
+SELECT
+	BOROUGH,
+	NEIGHBORHOOD,
+	building_class_categort,
+	tax_class_at_present,
+	BLOCK,
+	LOT,
+	building_class_at_present,
+	ADDRESS,
+	apartment_number,
+	zip,
+	rensidential_unit,
+	commercial_units,
+	total_units,
+	Land_square_feet,
+	Gross_square_feet,
+	year_built,
+	tax_class_at_time_of_sale,
+	building_class_at_present,
+	price,
+	sale_date,
+	count( * )
+from nyc_rolling_sales2
+
+GROUP BY BOROUGH,NEIGHBORHOOD,building_class_categort,tax_class_at_present,BLOCK,LOT,building_class_at_present,ADDRESS,apartment_number,zip,rensidential_unit,commercial_units,total_units,Land_square_feet,Gross_square_feet,year_built,
+tax_class_at_time_of_sale,building_class_at_present,price,sale_date
+having count(*) >1
+
+
+
+
+CREATE TABLE nyc_rolling_sales  as
+SELECT DISTINCT BOROUGH,	NEIGHBORHOOD,	building_class_categort,	tax_class_at_present,	BLOCK	,LOT,	building_class_at_present,	ADDRESS	apartment_number,	zip	,rensidential_unit,	commercial_units,	total_units	,Land_square_feet,	Gross_square_feet	,year_built	,tax_class_at_time_of_sale,	building_class_at_time_of_sale,	price,sale_date
+from nyc_rolling_sales2
+
+
+
+## general checking
+SELECT *
+from nyc_rolling_sales
+
+
+SELECT rensidential_unit
+from nyc_rolling_sales
+
+
+SELECT BOROUGH,count(*) as propertylocation
+from nyc_rolling_sales
+GROUP BY BOROUGH
+ORDER BY 2 DESC
+
+
+SELECT BOROUGH,NEIGHBORHOOD,count(NEIGHBORHOOD) as countneighborhook
+from nyc_rolling_sales
+GROUP BY BOROUGH,NEIGHBORHOOD
+
+
+SELECT building_class_categort, count(*) as buildingclasscategotycount
+from nyc_rolling_sales
+GROUP BY building_class_categort
+ORDER BY buildingclasscategotycount desc
+limit 10
+
+
+
+SELECT tax_class_at_present,count(*) as tax_class_at_presentcount
+from nyc_rolling_sales
+GROUP BY tax_class_at_present
+ORDER BY tax_class_at_present DESC
+
+
+SELECT building_class_at_present,count(*) as building_class_at_present
+from nyc_rolling_sales
+GROUP BY building_class_at_present
+ORDER BY building_class_at_present DESC
+
+SELECT building_class_at_time_of_sale, count(*)
+from nyc_rolling_sales
+GROUP BY building_class_at_time_of_sale
+ORDER BY building_class_at_time_of_sale desc
+
+SELECT min(sale_date),max(sale_date)
+from nyc_rolling_sales
+
+SELECT year_built,count(*)
+from nyc_rolling_sales
+GROUP BY year_built
+
+SELECT price,sale_date
+from nyc_rolling_sales
+ORDER BY sale_date asc
+
+
+##chekcing sales data
+SELECT sum(price)
+from nyc_rolling_sales
+
+## finding building with tax class 2a
+SELECT building_class_categort, tax_class_at_present
+from nyc_rolling_sales
+WHERE tax_class_at_present = '2A'
+
+
+SELECT building_class_categort,price
+from nyc_rolling_sales
+where price > 1
+ORDER BY price DESC
+
+##check the most sales type of house in manhatoon (1)
+SELECT BOROUGH, building_class_categort,count(building_class_categort) as categortcount
+from nyc_rolling_sales
+WHERE BOROUGH = 1
+GROUP BY building_class_categort
+ORDER BY categortcount desc
+
+## check the avg price 
+SELECT avg(price)
+from nyc_rolling_sales
+ORDER BY price DESC
