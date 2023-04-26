@@ -1,0 +1,134 @@
+## first phase :data cleaning 
+
+## cleaning the customeradress COLUMN
+
+## check the data
+SELECT *
+from customeradress
+
+## check theres any DUPLICATE value in each COLUMN
+SELECT count(customer_id)
+from customeradress
+GROUP BY customer_id
+
+SELECT address,COUNT(address) as ct
+FROM customeradress
+GROUP BY address
+ORDER BY ct DESC
+
+SELECT customer_id,address,postcode
+FROM customeradress
+WHERE property_valuation is null
+
+
+SELECT country,COUNT(country) as ct
+FROM customeradress
+GROUP BY country
+ORDER BY ct DESC
+
+SELECT state,COUNT(state) as ct
+FROM customeradress
+GROUP BY state
+ORDER BY ct DESC
+
+SELECT postcode,COUNT(postcode) as ct
+FROM customeradress
+GROUP BY postcode
+ORDER BY ct DESC
+
+SELECT property_valuation,COUNT(property_valuation) as ct
+FROM customeradress
+GROUP BY property_valuation
+ORDER BY ct DESC
+
+
+##cheking any DUPLICATE row
+SELECT customer_id,	address	,postcode,	state,	country	,property_valuation,COUNT(*)
+from customeradress
+GROUP BY customer_id,	address	,postcode,	state,	country	,property_valuation
+HAVING COUNT(*) > 1
+
+
+## Update the state COLUMN
+UPDATE customeradress SET state = 'New South Wales' where state = 'NSW'
+UPDATE customeradress SET state = 'Victoria' where state = 'VIC'
+UPDATE customeradress SET state = 'Queensland' where state = 'QLD'
+
+
+#data clening in customerdemographic
+# i DELETE the default COLUMN becaue its gibberish
+
+# check the customerdemographic data set
+SELECT * from customerdemographic
+
+#check duplication
+SELECT count(customer_id)
+from customerdemographic
+GROUP BY customer_id
+ORDER BY customer_id DESC
+
+## checking null
+SELECT *
+from customerdemographic
+WHERE last_name is null
+
+
+##upaate the gender COLUMN
+SELECT gender,count(gender)
+from customerdemographic
+GROUP BY gender
+ORDER BY gender DESC
+
+SELECT first_name,last_name,gender
+from customerdemographic
+WHERE gender = 'U'
+
+UPDATE customerdemographic SET gender = 'Male' WHERE gender = 'M'
+UPDATE customerdemographic SET gender = 'Female' WHERE gender = 'Femal'
+UPDATE customerdemographic SET gender = 'Female' WHERE gender = 'F'
+
+
+##UPDATE DOB data set
+SELECT first_name,FROM_UNIXTIME(DOB,'%Y') 
+from customerdemographic
+
+
+#data cleaning the newcustomerlist
+
+SELECT *
+FROM newcustomerlist
+
+##DELETE a null row
+DELETE from newcustomerlist WHERE gender is null
+
+
+SELECT gender,COUNT(gender)
+from newcustomerlist
+GROUP BY gender
+
+SELECT DOB
+from newcustomerlist
+ORDER BY DOB asc
+
+SELECT state,COUNT(state)
+from newcustomerlist
+GROUP BY state
+
+
+##UPDATE the state COLUMN
+UPDATE newcustomerlist set state = 'Queensland' WHERE state = 'QLD'
+UPDATE newcustomerlist set state = 'New South Wales' WHERE  state = 'NSW'
+UPDATE newcustomerlist set state = 'Victoria' WHERE state = 'Vic'
+
+
+
+##data cleaning the transactions table
+
+SELECT *
+from transactions
+
+##checking any ducplicate row
+SELECT transaction_id	,product_id,	customer_id,	transaction_date,	online_order,	order_status,	brand,	product_line,	product_class	,product_size,	list_price,	standard_cost,	product_first_sold_date,COUNT(*)
+from transactions
+GROUP BY transaction_id	,product_id,	customer_id,	transaction_date,	online_order,	order_status,	brand,	product_line,	product_class	,product_size,	list_price,	standard_cost,	product_first_sold_date
+HAVING count(*) >1
